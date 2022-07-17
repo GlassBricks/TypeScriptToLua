@@ -77,6 +77,9 @@ jobs:
       - name: Copy commit benchmark to master
         run: rm -rf ./master/benchmark && cp -rf ./commit/benchmark ./master/benchmark
       # Run master benchmark first and output to commit benchmark data
+      - name: Link typescript-to-lua package master
+        run: npm link && npm link typescript-to-lua
+        working-directory: master
       - name: Build benchmark Lua 5.3 master
         run: node ../dist/tstl.js -p tsconfig.53.json
         working-directory: master/benchmark
@@ -92,6 +95,9 @@ jobs:
         run: luajit -- run.lua ../../../commit/benchmark/data/benchmark_master_jit.json
         working-directory: master/benchmark/dist
       # Run commit benchmark and compare with master
+      - name: Link typescript-to-lua package commit
+        run: npm link && npm link typescript-to-lua
+        working-directory: commit
       - name: Build benchmark Lua 5.3 commit
         run: node ../dist/tstl.js -p tsconfig.53.json
         working-directory: commit/benchmark
